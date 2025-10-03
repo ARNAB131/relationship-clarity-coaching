@@ -1,21 +1,21 @@
 import streamlit as st
-import base64
 from pathlib import Path
 import csv
 import smtplib
 from email.mime.text import MIMEText
 from email.utils import formatdate
 import datetime
+import urllib.parse
 
 # -----------------------------
 # Branding and Global Config
 # -----------------------------
 st.set_page_config(page_title="Relationship Clarity Coaching", page_icon="💙", layout="wide")
 
-PRIMARY = "#1C1C7D"  # Deep Blue
+PRIMARY = "#1C1C7D"   # Deep Blue
 ALT_PRIMARY = "#7D1C3A"  # Wine Red (optional toggle later)
-SECONDARY = "#F5E9DA"  # Warm Beige
-ACCENT = "#C49A6C"     # Gold
+SECONDARY = "#F5E9DA" # Warm Beige
+ACCENT = "#C49A6C"    # Gold
 
 # Load Google Fonts and custom CSS (Roboto for body, Merriweather for headings)
 st.markdown(
@@ -54,12 +54,21 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Utility: load images from a folder
+# -----------------------------
+# Helpers
+# -----------------------------
 def load_images(folder: Path, patterns=("*.png", "*.jpg", "*.jpeg", "*.webp", "*.PNG", "*.JPG", "*.JPEG", "*.WEBP", "*.PMG")):
     files = []
     for pat in patterns:
         files.extend(sorted(folder.glob(pat)))
     return files
+
+def get_secrets_section(name: str) -> dict:
+    """Return a secrets section or {} if secrets.toml is missing."""
+    try:
+        return dict(st.secrets.get(name, {}))
+    except Exception:
+        return {}
 
 # Paths for local assets relative to repo
 ROOT = Path(__file__).parent
@@ -140,16 +149,17 @@ if submitted:
         st.markdown("### Payment")
         st.write("Select one option:")
 
-        upi_id = st.secrets.get("payments", {}).get("upi_id", "your-upi@bank")
-        upi_payee_name = st.secrets.get("payments", {}).get("upi_payee_name", "Abhijit")
-        amount = st.secrets.get("payments", {}).get("amount_inr", 299)
+        payments = get_secrets_section("payments")
+        upi_id = payments.get("upi_id", "your-upi@bank")
+        upi_payee_name = payments.get("upi_payee_name", "Abhijit")
+        amount = payments.get("amount_inr", 299)
         transaction_note = "ClarityReport"
         upi_link = f"upi://pay?pa={upi_id}&pn={upi_payee_name}&am={amount}&cu=INR&tn={transaction_note}"
         st.link_button("Pay via UPI", upi_link, use_container_width=True)
 
-        stripe_link = st.secrets.get("payments", {}).get("stripe_checkout_url", "")
-        razorpay_link = st.secrets.get("payments", {}).get("razorpay_checkout_url", "")
-        paypal_link = st.secrets.get("payments", {}).get("paypal_link", "")
+        stripe_link = payments.get("stripe_checkout_url", "")
+        razorpay_link = payments.get("razorpay_checkout_url", "")
+        paypal_link = payments.get("paypal_link", "")
 
         cols_pay = st.columns(3)
         with cols_pay[0]:
@@ -166,15 +176,20 @@ if submitted:
         st.markdown("#### After Payment")
         paid = st.checkbox("I have completed the payment")
         if paid:
-            smtp_conf = st.secrets.get("smtp", {})
+            smtp_conf = get_secrets_section("smtp")
             smtp_host = smtp_conf.get("host")
-            smtp_port = int(smtp_conf.get("port", 587))
+            smtp_port = int(smtp_conf.get("port", 587)) if smtp_conf.get("port") else 587
             smtp_user = smtp_conf.get("user")
             smtp_pass = smtp_conf.get("pass")
             sender = smtp_conf.get("from", smtp_user)
 
             confirmation_msg = f"""
-Hi {name},\n\nThank you for booking the Clarity Report. I will review your details and send your personalised guidance on WhatsApp/Email.\n\n— Abhijit\n"""
+Hi {name},
+
+Thank you for booking the Clarity Report. I will review your details and send your personalised guidance on WhatsApp/Email.
+
+— Abhijit
+"""
 
             sent_ok = False
             if smtp_host and smtp_user and smtp_pass and sender:
@@ -200,7 +215,9 @@ Hi {name},\n\nThank you for booking the Clarity Report. I will review your detai
 
             if whatsapp:
                 wa_text = f"Hi Abhijit, I paid for the Clarity Report. Name: {name}."
-                wa_link = f"https://wa.me/{whatsapp.replace('+','').replace(' ','')}?text=" + st.experimental_memo(lambda s: s)(wa_text)
+                wa_encoded = urllib.parse.quote_plus(wa_text)
+                wa_number = whatsapp.replace("+", "").replace(" ", "")
+                wa_link = f"https://wa.me/{wa_number}?text={wa_encoded}"
                 st.link_button("Send WhatsApp confirmation", wa_link, use_container_width=True)
 
 # -----------------------------
@@ -230,12 +247,16 @@ with st.container():
     else:
         if "t_index" not in st.session_state:
             st.session_state.t_index = 0
-        cols = st.columns([1,2,1])
+        cols = st.columns([1, 2, 1])
         with cols[0]:
             if st.button("◀ Prev"):
                 st.session_state.t_index = (st.session_state.t_index - 1) % len(images)
         with cols[1]:
-            st.image(str(images[st.session_state.t_index]), use_container_width=True, caption="All real messages from clients. See more on Instagram highlights @yourhandle.")
+            st.image(
+                str(images[st.session_state.t_index]),
+                use_container_width=True,
+                caption="All real messages from clients. See more on Instagram highlights @yourhandle."
+            )
         with cols[2]:
             if st.button("Next ▶"):
                 st.session_state.t_index = (st.session_state.t_index + 1) % len(images)
@@ -257,7 +278,7 @@ with st.container():
 with st.container():
     st.markdown("<div class='section'><h2>About Me — Why I Do This</h2>", unsafe_allow_html=True)
 
-    cols = st.columns([1,2])
+    cols = st.columns([1, 2])
     with cols[0]:
         about_images = load_images(ABOUTME_DIR)
         fallback1 = ABOUTME_DIR / "client1.PMG"
@@ -307,15 +328,16 @@ with st.container():
 # -----------------------------
 with st.container():
     st.markdown("<div class='section beige'>", unsafe_allow_html=True)
-    colA, colB = st.columns([2,1])
+    colA, colB = st.columns([2, 1])
     with colA:
         st.write("Follow on Instagram: ")
-        ig_handle = st.secrets.get("social", {}).get("instagram_handle", "yourhandle")
+        social = get_secrets_section("social")
+        ig_handle = social.get("instagram_handle", "yourhandle")
         st.markdown(f"[@{ig_handle}](https://instagram.com/{ig_handle})")
         st.write("Privacy & Confidentiality: Your details are kept confidential and never shared.")
     with colB:
         st.write("Instagram Feed Preview")
-        ig_embed_username = st.secrets.get("social", {}).get("instagram_embed_username", "")
+        ig_embed_username = social.get("instagram_embed_username", "")
         if ig_embed_username:
             st.components.v1.html(
                 f"""
@@ -330,45 +352,40 @@ with st.container():
     st.markdown("</div>", unsafe_allow_html=True)
 
 # -----------------------------
-# Notes for deployment
+# Notes for deployment (visible in app if needed)
 # -----------------------------
 with st.expander("Admin Notes: Setup & Secrets"):
-st.markdown(
-"""
-**Paths**
-- Place testimonial images in `images/feedback/feedback1.PNG ... feedback10.PNG`.
-- Place your photo in `images/aboutme/client1.PNG` or `client1.PMG`.
+    st.markdown(
+        """
+        **Paths**
+        - Place testimonial images in `images/feedback/feedback1.PNG ... feedback10.PNG`.
+        - Place your photo in `images/aboutme/client1.PNG` or `client1.PMG`.
 
+        **Optional Secrets (add in `.streamlit/secrets.toml`)**
 
-**Optional Secrets (add in `.streamlit/secrets.toml`)**
+        ```toml
+        [payments]
+        upi_id = "your-upi@bank"
+        upi_payee_name = "Abhijit"
+        amount_inr = 299
+        stripe_checkout_url = "https://buy.stripe.com/..."  # optional
+        razorpay_checkout_url = "https://pages.razorpay.com/..."  # optional
+        paypal_link = "https://paypal.me/yourid/3.99"  # optional
 
+        [smtp]
+        host = "smtp.gmail.com"
+        port = 587
+        user = "youremail@example.com"
+        pass = "app_password"
+        from = "youremail@example.com"
 
-```toml
-[payments]
-upi_id = "your-upi@bank"
-upi_payee_name = "Abhijit"
-amount_inr = 299
-stripe_checkout_url = "https://buy.stripe.com/..." # optional
-razorpay_checkout_url = "https://pages.razorpay.com/..." # optional
-paypal_link = "https://paypal.me/yourid/3.99" # optional
+        [social]
+        instagram_handle = "yourhandle"
+        instagram_embed_username = "p/POST_ID"  # optional embed permalink slug
+        ```
 
-
-[smtp]
-host = "smtp.gmail.com"
-port = 587
-user = "youremail@example.com"
-pass = "app_password"
-from = "youremail@example.com"
-
-
-[social]
-instagram_handle = "yourhandle"
-instagram_embed_username = "p/POST_ID" # optional embed permalink slug
-```
-
-
-**Deploy**
-- Run locally: `streamlit run relationship_clarity_streamlit_app.py`
-- Streamlit Cloud: push repo, set secrets, then deploy.
-"""
-)
+        **Deploy**
+        - Run locally: `streamlit run relationship_clarity_streamlit_app.py`
+        - Streamlit Cloud: push repo, set secrets, then deploy.
+        """
+    )
