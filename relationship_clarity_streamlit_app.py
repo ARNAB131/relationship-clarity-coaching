@@ -155,7 +155,7 @@ if submitted:
         amount = payments.get("amount_inr", 299)
         transaction_note = "ClarityReport"
         upi_link = f"upi://pay?pa={upi_id}&pn={upi_payee_name}&am={amount}&cu=INR&tn={transaction_note}"
-        st.link_button("Pay via UPI", upi_link, use_container_width=True)
+        st.link_button("Pay via UPI", upi_link, width="stretch")
 
         stripe_link = payments.get("stripe_checkout_url", "")
         razorpay_link = payments.get("razorpay_checkout_url", "")
@@ -164,13 +164,13 @@ if submitted:
         cols_pay = st.columns(3)
         with cols_pay[0]:
             if stripe_link:
-                st.link_button("Pay with Stripe", stripe_link, use_container_width=True)
+                st.link_button("Pay with Stripe", stripe_link, width="stretch")
         with cols_pay[1]:
             if razorpay_link:
-                st.link_button("Pay with Razorpay", razorpay_link, use_container_width=True)
+                st.link_button("Pay with Razorpay", razorpay_link, width="stretch")
         with cols_pay[2]:
             if paypal_link:
-                st.link_button("Pay with PayPal", paypal_link, use_container_width=True)
+                st.link_button("Pay with PayPal", paypal_link, width="stretch")
 
         st.divider()
         st.markdown("#### After Payment")
@@ -218,7 +218,7 @@ Thank you for booking the Clarity Report. I will review your details and send yo
                 wa_encoded = urllib.parse.quote_plus(wa_text)
                 wa_number = whatsapp.replace("+", "").replace(" ", "")
                 wa_link = f"https://wa.me/{wa_number}?text={wa_encoded}"
-                st.link_button("Send WhatsApp confirmation", wa_link, use_container_width=True)
+                st.link_button("Send WhatsApp confirmation", wa_link, width="stretch")
 
 # -----------------------------
 # What You’ll Get Section
@@ -232,7 +232,7 @@ with st.container():
         - What are the risks, and my personal Suggestions for you to move forward.
         """
     )
-    st.link_button("Book your clarity Report now", "#book")
+    st.link_button("Book your clarity Report now", "#book", width="stretch")
     st.markdown("</div>", unsafe_allow_html=True)
 
 # -----------------------------
@@ -254,7 +254,7 @@ with st.container():
         with cols[1]:
             st.image(
                 str(images[st.session_state.t_index]),
-                use_container_width=True,
+                width="stretch",
                 caption="All real messages from clients. See more on Instagram highlights @yourhandle."
             )
         with cols[2]:
@@ -288,7 +288,7 @@ with st.container():
         elif fallback2.exists():
             about_images = [fallback2]
         if about_images:
-            st.image(str(about_images[0]), caption="Abhijit", use_container_width=True)
+            st.image(str(about_images[0]), caption="Abhijit", width="stretch")
         else:
             st.info("Add your photo to images/aboutme/client1.PNG or client1.PMG")
 
@@ -298,7 +298,7 @@ with st.container():
             "People started coming to me for guidance, and I realised I could help them find the clarity they needed. "
             "Today, I offer private 1:1 clarity Guidance — simple, personal, and practical."
         )
-        st.link_button("Start Your Session", "#book")
+        st.link_button("Start Your Session", "#book", width="stretch")
 
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -320,7 +320,7 @@ with st.container():
 # -----------------------------
 with st.container():
     st.markdown("<div class='section'><h2>Ready for Clarity in Love?</h2>", unsafe_allow_html=True)
-    st.link_button("Book Your Report Now", "#book")
+    st.link_button("Book Your Report Now", "#book", width="stretch")
     st.markdown("</div>", unsafe_allow_html=True)
 
 # -----------------------------
@@ -365,7 +365,7 @@ with st.expander("Admin Notes: Setup & Secrets"):
 
         ```toml
         [payments]
-        upi_id = "your-upi@bank"
+        upi_id = "askabhijit@ptyes"
         upi_payee_name = "Abhijit"
         amount_inr = 299
         stripe_checkout_url = "https://buy.stripe.com/..."  # optional
@@ -375,13 +375,13 @@ with st.expander("Admin Notes: Setup & Secrets"):
         [smtp]
         host = "smtp.gmail.com"
         port = 587
-        user = "youremail@example.com"
+        user = "askabhijit@outlook.com"
         pass = "app_password"
-        from = "youremail@example.com"
+        from = "askabhijit@outlook.com"
 
         [social]
-        instagram_handle = "yourhandle"
-        instagram_embed_username = "p/POST_ID"  # optional embed permalink slug
+        instagram_handle = "Instagram.com/ask_abhijit"
+        instagram_embed_username = "reel/DOIDaxZEqXT"  # optional embed permalink slug
         ```
 
         **Deploy**
