@@ -245,7 +245,7 @@ with st.container():
             if st.button("◀ Prev"):
                 st.session_state.t_index = (st.session_state.t_index - 1) % len(images)
         with cols[1]:
-            st.image(str(images[st.session_state.t_index]), use_column_width=True, caption="All real messages from clients. See more on Instagram highlights @yourhandle.")
+            st.image(str(images[st.session_state.t_index]), use_container_width=True, caption="All real messages from clients. See more on Instagram highlights @yourhandle.")
         with cols[2]:
             if st.button("Next ▶"):
                 st.session_state.t_index = (st.session_state.t_index + 1) % len(images)
@@ -279,7 +279,7 @@ with st.container():
         elif fallback2.exists():
             about_images = [fallback2]
         if about_images:
-            st.image(str(about_images[0]), caption="Abhijit", use_column_width=True)
+            st.image(str(about_images[0]), caption="Abhijit", use_container_width=True)
         else:
             st.info("Add your photo to images/aboutme/client1.PNG or client1.PMG")
 
