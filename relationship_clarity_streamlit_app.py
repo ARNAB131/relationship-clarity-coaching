@@ -255,7 +255,7 @@ with st.container():
             st.image(
                 str(images[st.session_state.t_index]),
                 width="stretch",
-                caption="All real messages from clients. See more on Instagram highlights @yourhandle."
+                caption="All real messages from clients. See more on Instagram highlights @ask_abhijit."
             )
         with cols[2]:
             if st.button("Next ▶"):
@@ -269,7 +269,7 @@ with st.container():
     with c3:
         st.markdown("<div class='testimonial-card'><strong>Could move on in 2 days, not 2 years.</strong></div>", unsafe_allow_html=True)
 
-    st.caption("All real messages from clients. See more on my Instagram highlights @yourhandle.")
+    st.caption("All real messages from clients. See more on my Instagram highlights @ask_abhijit.")
     st.markdown("</div>", unsafe_allow_html=True)
 
 # -----------------------------
