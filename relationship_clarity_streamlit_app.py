@@ -332,4 +332,43 @@ with st.container():
 # -----------------------------
 # Notes for deployment
 # -----------------------------
-with st.expander("Admin Notes: Setup &
+with st.expander("Admin Notes: Setup & Secrets"):
+st.markdown(
+"""
+**Paths**
+- Place testimonial images in `images/feedback/feedback1.PNG ... feedback10.PNG`.
+- Place your photo in `images/aboutme/client1.PNG` or `client1.PMG`.
+
+
+**Optional Secrets (add in `.streamlit/secrets.toml`)**
+
+
+```toml
+[payments]
+upi_id = "your-upi@bank"
+upi_payee_name = "Abhijit"
+amount_inr = 299
+stripe_checkout_url = "https://buy.stripe.com/..." # optional
+razorpay_checkout_url = "https://pages.razorpay.com/..." # optional
+paypal_link = "https://paypal.me/yourid/3.99" # optional
+
+
+[smtp]
+host = "smtp.gmail.com"
+port = 587
+user = "youremail@example.com"
+pass = "app_password"
+from = "youremail@example.com"
+
+
+[social]
+instagram_handle = "yourhandle"
+instagram_embed_username = "p/POST_ID" # optional embed permalink slug
+```
+
+
+**Deploy**
+- Run locally: `streamlit run relationship_clarity_streamlit_app.py`
+- Streamlit Cloud: push repo, set secrets, then deploy.
+"""
+)
