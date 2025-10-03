@@ -373,7 +373,7 @@ with st.expander("Admin Notes: Setup & Secrets"):
         paypal_link = "https://paypal.me/yourid/3.99"  # optional
 
         [smtp]
-        host = "smtp.gmail.com"
+        host = "smtp.office365.com"
         port = 587
         user = "askabhijit@outlook.com"
         pass = "app_password"
