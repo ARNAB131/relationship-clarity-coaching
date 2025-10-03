@@ -100,7 +100,13 @@ with st.form("booking_form"):
     col1, col2, col3 = st.columns([1, 1, 1])
     with col1:
         name = st.text_input("Name")
-        dob = st.date_input("Date of Birth", value=None, format="DD/MM/YYYY")
+        dob = st.date_input(
+            "Date of Birth",
+            value=None,
+            min_value=datetime.date(1900, 1, 1),
+            max_value=datetime.date.today(),
+            format="DD/MM/YYYY"
+        )
         gender = st.selectbox("Gender", ["Prefer not to say", "Female", "Male", "Other"])
     with col2:
         email = st.text_input("Email")
@@ -111,6 +117,9 @@ with st.form("booking_form"):
     submitted = st.form_submit_button("Proceed to Payment", use_container_width=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
+
+# (rest of the code from the previous version continues unchanged)
+
 
 # Handle submission
 if submitted:
