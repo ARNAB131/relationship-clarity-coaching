@@ -333,7 +333,7 @@ with st.container():
         st.write("Follow on Instagram: ")
         social = get_secrets_section("social")
         ig_handle = social.get("instagram_handle", "Instagram.com/ask_abhijit")
-        st.markdown(f"[@{ig_handle}](https://instagram.com/{ask_abhijit})")
+        st.markdown(f"[@{ig_handle}](https://instagram.com/ask_abhijit/)")
         st.write("Privacy & Confidentiality: Your details are kept confidential and never shared.")
     with colB:
         st.write("Instagram Feed Preview")
