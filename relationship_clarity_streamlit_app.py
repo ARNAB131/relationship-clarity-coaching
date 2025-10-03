@@ -337,7 +337,7 @@ with st.container():
         st.write("Privacy & Confidentiality: Your details are kept confidential and never shared.")
     with colB:
         st.write("Instagram Feed Preview")
-        ig_embed_username = social.get("reel/DOIDaxZEqXT", "")
+        ig_embed_username = social.get("instagram_embed_username", "")
         if ig_embed_username:
             st.components.v1.html(
                 f"""
