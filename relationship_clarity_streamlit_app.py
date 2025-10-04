@@ -336,18 +336,9 @@ with st.container():
         st.markdown(f"[@{ig_handle}](https://instagram.com/ask_abhijit/)")
         st.write("Privacy & Confidentiality: Your details are kept confidential and never shared.")
     with colB:
-        st.write("Instagram Feed Preview")
-        ig_embed_username = social.get("instagram_embed_username", "")
-        if ig_embed_username:
-            st.components.v1.html(
-                f"""
-                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/{ig_embed_username}/" data-instgrm-version="14"></blockquote>
-                <script async src="https://www.instagram.com/embed.js"></script>
-                """,
-                height=300,
-            )
-        else:
-            st.caption("Add 'social.instagram_embed_username' in secrets to show an embed.")
+        st.write("Follow my Instagram for reels and highlights:")
+        st.link_button("WATCH MY REELS", f"https://www.instagram.com/reel/DOIDaxZEqXT/?igsh=MXQxcnUxamU1dDlqMg==", width="stretch")
+
     st.markdown("<div class='footer small'>© {}</div>".format(datetime.datetime.now().year), unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
