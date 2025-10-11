@@ -71,27 +71,37 @@ def get_secret_section(name: str) -> dict:
 
 
 # ---------------------------------------------------------
-# HERO SECTION (with image)
+# HERO SECTION (with banner background)
 # ---------------------------------------------------------
-hero_path = Path("images/hero/hero.PNG")
-hero_img = hero_path if hero_path.exists() else "https://placehold.co/400x500/1C1C7D/C49A6C?text=Upload+hero.PNG+in+/images/hero"
+hero_image = "images/hero/hero.PNG"
+if not Path(hero_image).exists():
+    hero_image = "https://placehold.co/1200x500/1C1C7D/C49A6C?text=Upload+hero.PNG+in+/images/hero"
 
-col1, col2 = st.columns([2, 1])
-with col1:
-    st.markdown("""
-    <div class="hero">
-      <h1 class="hero-title" style="color:var(--primary);font-size:48px;">
-        Get <b>Clarity in Love</b>, Heal Patterns, Move Forward.
-      </h1>
-      <p style="font-size:20px;color:#333;margin-top:10px;">
-        Personalised guidance Report by Abhijit. Stop guessing. Start healing.
-      </p>
-      <a href="#book" class="cta-btn">Book your Clarity Report — ₹500</a>
-    </div>
-    """, unsafe_allow_html=True)
-with col2:
-    st.image(str(hero_img), caption="Abhijit — Relationship Coach", use_container_width=True)
-
+st.markdown(f"""
+<div class="hero"
+     style="
+        background: url('{hero_image}') center/cover no-repeat;
+        color: white;
+        position: relative;
+        border-radius: 24px;
+        padding: 100px 60px;
+        margin-bottom: 40px;
+        box-shadow: 0 20px 50px rgba(28,28,125,0.3);
+     ">
+  <div style="background:rgba(28,28,125,0.55);padding:40px;border-radius:20px;max-width:700px;">
+    <h1 class="hero-title" style="font-size:52px;line-height:1.2;color:white;">
+      Get <b>Clarity in Love</b>, Heal Patterns, Move Forward.
+    </h1>
+    <p style="font-size:20px;margin-top:16px;color:#f5f5f5;">
+      Personalised guidance Report by Abhijit. Stop guessing. Start healing.
+    </p>
+    <a href="#book" class="cta-btn"
+       style="display:inline-block;margin-top:24px;background:var(--accent);color:var(--primary);">
+       Book your Clarity Report — ₹500
+    </a>
+  </div>
+</div>
+""", unsafe_allow_html=True)
 
 # ---------------------------------------------------------
 # BOOKING FORM SECTION
