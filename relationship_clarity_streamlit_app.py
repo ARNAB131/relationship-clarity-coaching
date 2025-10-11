@@ -71,7 +71,7 @@ def get_secret_section(name: str) -> dict:
 
 
 # ---------------------------------------------------------
-# HERO SECTION (image banner displayed directly)
+# HERO SECTION (banner image + overlapping text)
 # ---------------------------------------------------------
 hero_path = Path("images/hero/hero.PNG")
 if hero_path.exists():
@@ -79,15 +79,31 @@ if hero_path.exists():
 else:
     st.image("https://placehold.co/1200x500/1C1C7D/C49A6C?text=Upload+images/hero/hero.PNG", use_container_width=True)
 
+# Overlapping text block (uses negative margin to float above image)
 st.markdown("""
-<div class="hero" style="text-align:center;margin-top:-40px;">
-  <h1 class="hero-title" style="color:var(--primary);font-size:52px;">
+<div style="
+    margin-top:-120px;
+    position:relative;
+    z-index:10;
+    background:white;
+    max-width:800px;
+    margin-left:auto;
+    margin-right:auto;
+    padding:40px 50px;
+    border-radius:24px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.15);
+    text-align:center;
+">
+  <h1 class="hero-title" style="color:var(--primary);font-size:48px;line-height:1.2;">
     Get <b>Clarity in Love</b>, Heal Patterns, Move Forward.
   </h1>
   <p style="font-size:20px;color:#333;margin-top:10px;">
     Personalised guidance Report by Abhijit. Stop guessing. Start healing.
   </p>
-  <a href="#book" class="cta-btn">Book your Clarity Report — ₹500</a>
+  <a href="#book" class="cta-btn"
+     style="background:var(--accent);color:var(--primary);display:inline-block;margin-top:18px;">
+     Book your Clarity Report — ₹500
+  </a>
 </div>
 """, unsafe_allow_html=True)
 
