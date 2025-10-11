@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Relationship Clarity Coaching — Streamlit Web App
-Deployment-ready version (₹500 update, FAQ replaced)
+Professional Frontend | ₹500 Version | Hero Banner + About Image
 Author: Abhijit
 """
 
@@ -21,37 +21,101 @@ PRIMARY = "#1C1C7D"   # Deep Blue
 SECONDARY = "#F5E9DA" # Warm Beige
 ACCENT = "#C49A6C"    # Gold
 
+
 # ---------------------------------------------------------
-# FONTS + CSS
+# PROFESSIONAL FRONTEND THEME CSS
 # ---------------------------------------------------------
 st.markdown(f"""
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root {{
-  --primary:{PRIMARY}; --secondary:{SECONDARY}; --accent:{ACCENT};
+  --primary:{PRIMARY};
+  --secondary:{SECONDARY};
+  --accent:{ACCENT};
 }}
-html, body, [class*="css"] {{ font-family:'Poppins',sans-serif; }}
-h1,h2,h3,.hero-title {{ font-family:'Lora',serif; }}
 
-.hero {{
-  background: var(--secondary);
-  border-radius: 24px; padding: 64px 48px; margin-bottom: 32px;
-  box-shadow:0 20px 50px rgba(28,28,125,0.1);
+html, body, [class*="css"] {{
+  font-family:'Poppins',sans-serif;
+  scroll-behavior:smooth;
+  color:#222;
 }}
-.section {{ background:white; border-radius:24px; padding:40px; margin-bottom:24px; }}
-.beige {{ background:var(--secondary); }}
+
+h1,h2,h3,.hero-title {{
+  font-family:'Lora',serif;
+  letter-spacing:-0.02em;
+}}
+
+a, .cta-btn {{
+  transition: all 0.25s ease-in-out;
+}}
+
 .cta-btn {{
-  background:var(--primary); color:white; padding:14px 30px;
-  border-radius:999px; font-weight:700; text-decoration:none;
+  background:var(--accent);
+  color:var(--primary);
+  padding:14px 36px;
+  border-radius:999px;
+  font-weight:700;
+  text-decoration:none;
+  box-shadow:0 6px 16px rgba(196,154,108,0.3);
 }}
+.cta-btn:hover {{
+  background:var(--primary);
+  color:white;
+  transform:scale(1.03);
+  box-shadow:0 10px 25px rgba(28,28,125,0.4);
+}}
+
+.section {{
+  background:white;
+  border-radius:24px;
+  padding:60px 40px;
+  margin-bottom:40px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.06);
+}}
+.beige {{ background:var(--secondary); }}
+
 .card {{
-  background:white; border-top:4px solid var(--accent);
-  border-radius:20px; padding:24px; box-shadow:0 4px 16px rgba(0,0,0,0.08);
+  background:white;
+  border-top:4px solid var(--accent);
+  border-radius:20px;
+  padding:30px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+  transition:transform 0.25s ease;
 }}
+.card:hover {{ transform:translateY(-6px); box-shadow:0 10px 20px rgba(0,0,0,0.08); }}
+
 .testimonial {{
-  border-radius:20px; padding:20px; box-shadow:0 4px 20px rgba(0,0,0,0.1);
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.1);
+  transition:transform 0.3s ease;
 }}
-.footer {{ text-align:center; color:#444; font-size:13px; opacity:0.8; }}
+.testimonial:hover {{ transform:translateY(-8px); }}
+
+.hero-tag {{
+  display:inline-block;
+  background:rgba(255,255,255,0.9);
+  color:var(--primary);
+  font-weight:600;
+  font-size:14px;
+  padding:6px 16px;
+  border-radius:999px;
+  margin-bottom:14px;
+}}
+
+.footer {{
+  text-align:center;
+  padding:20px 0;
+  color:#555;
+  font-size:13px;
+}}
+.footer a {{
+  color:var(--accent);
+  text-decoration:none;
+}}
+.footer a:hover {{
+  color:var(--primary);
+}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -79,33 +143,31 @@ if hero_path.exists():
 else:
     st.image("https://placehold.co/1200x500/1C1C7D/C49A6C?text=Upload+images/hero/hero.PNG", use_container_width=True)
 
-# Overlapping text block (uses negative margin to float above image)
 st.markdown("""
 <div style="
     margin-top:-120px;
-    position:relative;
-    z-index:10;
     background:white;
-    max-width:800px;
+    padding:40px 60px;
+    border-radius:24px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.1);
+    text-align:center;
+    max-width:820px;
     margin-left:auto;
     margin-right:auto;
-    padding:40px 50px;
-    border-radius:24px;
-    box-shadow:0 20px 40px rgba(0,0,0,0.15);
-    text-align:center;
 ">
-  <h1 class="hero-title" style="color:var(--primary);font-size:48px;line-height:1.2;">
+  <div class="hero-tag">Private 1:1 Guidance</div>
+  <h1 class="hero-title" style="font-size:52px;color:var(--primary);">
     Get <b>Clarity in Love</b>, Heal Patterns, Move Forward.
   </h1>
-  <p style="font-size:20px;color:#333;margin-top:10px;">
+  <p style="font-size:20px;color:#444;margin-top:10px;">
     Personalised guidance Report by Abhijit. Stop guessing. Start healing.
   </p>
-  <a href="#book" class="cta-btn"
-     style="background:var(--accent);color:var(--primary);display:inline-block;margin-top:18px;">
-     Book your Clarity Report — ₹500
+  <a href="#book" class="cta-btn" style="margin-top:16px;">
+    Book your Clarity Report — ₹500
   </a>
 </div>
 """, unsafe_allow_html=True)
+
 
 # ---------------------------------------------------------
 # BOOKING FORM SECTION
