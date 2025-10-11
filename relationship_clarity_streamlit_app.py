@@ -228,17 +228,25 @@ st.markdown("</div>", unsafe_allow_html=True)
 
 
 # ---------------------------------------------------------
-# ABOUT ME
+# ABOUT ME (with image)
 # ---------------------------------------------------------
-st.markdown("""
-<div class='section' style='background:var(--primary);color:white;'>
-  <h2 style='color:var(--accent);'>Why I Do This: My Promise of Clarity.</h2>
-  <p>I’ve seen firsthand how painful it is when love feels one-sided or when the same heartbreak repeats again and again.
-  People came to me for guidance, and I realised I could help them cut through confusion and find honest clarity.</p>
-  <p>Today, I offer private 1:1 Clarity Guidance that is simple, personal, and practical. Let's stop the cycle of confusion together.</p>
-  <a href='#book' class='cta-btn' style='background:white;color:var(--primary);'>Start Your Session</a>
-</div>
-""", unsafe_allow_html=True)
+st.markdown("<div class='section' style='background:var(--primary);color:white;'>", unsafe_allow_html=True)
+c1, c2 = st.columns([1,2])
+about_img = Path("images/aboutme/client1.PNG")
+with c1:
+    if about_img.exists():
+        st.image(str(about_img), caption="Abhijit", use_container_width=True)
+    else:
+        st.info("Add your photo at images/aboutme/client1.PNG to display it here.")
+with c2:
+    st.markdown("""
+    <h2 style='color:var(--accent);'>Why I Do This: My Promise of Clarity.</h2>
+    <p>I’ve seen firsthand how painful it is when love feels one-sided or when the same heartbreak repeats again and again.
+    People came to me for guidance, and I realised I could help them cut through confusion and find honest clarity.</p>
+    <p>Today, I offer private 1:1 Clarity Guidance that is simple, personal, and practical. Let's stop the cycle of confusion together.</p>
+    <a href='#book' class='cta-btn' style='background:white;color:var(--primary);'>Start Your Session</a>
+    """, unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
 
 
 # ---------------------------------------------------------
