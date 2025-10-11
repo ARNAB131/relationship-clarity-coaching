@@ -10,6 +10,9 @@ from pathlib import Path
 import csv, datetime, smtplib, urllib.parse
 from email.mime.text import MIMEText
 from email.utils import formatdate
+import qrcode
+from io import BytesIO
+
 
 
 # ---------------------------------------------------------
@@ -153,6 +156,13 @@ if submitted:
         amount = pay_conf.get("amount_inr", 500)
         txn_note = "ClarityReport"
         upi_link = f"upi://pay?pa={upi_id}&pn={upi_payee}&am={amount}&cu=INR&tn={txn_note}"
+        # --- show fallback QR and copy text ---
+        buf = BytesIO()
+        qrcode.make(upi_link).save(buf)
+        st.image(buf.getvalue(),
+                 caption="Scan to Pay via any UPI app",
+                 use_container_width=False)
+        st.markdown(f"**Or pay manually to:** `{upi_id}`") 
         st.markdown(f"""
         <div style="text-align:center;margin-top:20px;">
           <a href="{upi_link}" target="_blank" rel="noopener noreferrer"
