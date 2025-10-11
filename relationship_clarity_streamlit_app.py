@@ -153,7 +153,17 @@ if submitted:
         amount = pay_conf.get("amount_inr", 500)
         txn_note = "ClarityReport"
         upi_link = f"upi://pay?pa={upi_id}&pn={upi_payee}&am={amount}&cu=INR&tn={txn_note}"
-        st.link_button("Pay via UPI", upi_link, width="stretch")
+        st.markdown(f"""
+        <div style="text-align:center;margin-top:20px;">
+          <a href="{upi_link}" target="_blank" rel="noopener noreferrer"
+             class="cta-btn" style="display:inline-block;">
+             Pay via UPI
+          </a>
+          <p style="font-size:13px;color:#555;margin-top:6px;">
+            (If you're on desktop, copy this UPI ID manually: <b>{upi_id}</b>)
+          </p>
+        </div>
+        """, unsafe_allow_html=True)
 
         stripe_link = pay_conf.get("stripe_checkout_url", "")
         razor_link = pay_conf.get("razorpay_checkout_url", "")
