@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Get Clarity in Love | Personalised Guidance Report</title>
 
-    <!-- Tailwind & Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -18,8 +17,6 @@
         }
         .font-lora { font-family: 'Lora', serif; }
         .font-poppins { font-family: 'Poppins', sans-serif; }
-        .container-padding { padding-left: 1rem; padding-right: 1rem; }
-        @media (min-width: 640px) { .container-padding { padding-left: 2rem; padding-right: 2rem; } }
     </style>
 
     <script>
@@ -34,50 +31,14 @@
                     fontFamily: {
                         heading: ['Lora', 'serif'],
                         body: ['Poppins', 'sans-serif'],
-                    },
-                    boxShadow: {
-                        'deep-glow': '0 20px 50px rgba(28,28,125,0.7)',
                     }
                 }
             }
         };
 
-        function handleSubmit(event) {
-            event.preventDefault();
-            const form = event.target;
-            const name = form.elements.name.value;
-            const confirmationBox = document.getElementById('confirmation-message');
-
-            confirmationBox.classList.remove('hidden');
-            confirmationBox.innerHTML = `
-                <div class="p-6 bg-deep-blue text-white rounded-xl shadow-2xl">
-                    <h3 class="font-heading text-2xl mb-2 flex items-center">
-                        <i data-lucide="check-circle" class="w-6 h-6 mr-3 text-gold-accent"></i>
-                        Thank you, ${name}!
-                    </h3>
-                    <p class="font-body">
-                        Your details are successfully submitted. You will be redirected to the
-                        <span class="font-semibold">Payment Page</span> now to complete your booking
-                        for the Clarity Report (₹{{ amount_inr }}).
-                    </p>
-                    <p class="mt-4 text-sm opacity-80">
-                        Look out for a confirmation email shortly after payment.
-                    </p>
-                </div>
-            `;
-            lucide.createIcons();
-
-            setTimeout(() => {
-                form.reset();
-                confirmationBox.classList.add('hidden');
-                confirmationBox.innerHTML = '';
-                window.location.href = "upi://pay?pa={{ upi_id }}&pn={{ upi_payee_name }}&am={{ amount_inr }}&cu=INR";
-            }, 4000);
-        }
-
         function toggleFAQ(element) {
             const answer = element.nextElementSibling;
-            const icon = element.querySelector('[data-lucide="chevron-down"], [data-lucide="chevron-up"]');
+            const icon = element.querySelector('[data-lucide]');
             if (answer.classList.contains('max-h-0')) {
                 answer.classList.remove('max-h-0', 'opacity-0');
                 answer.classList.add('max-h-screen', 'opacity-100', 'py-4');
@@ -90,105 +51,166 @@
             lucide.createIcons();
         }
 
-        window.onload = () => { lucide.createIcons(); };
+        window.onload = () => lucide.createIcons();
     </script>
 </head>
 
 <body class="font-body text-gray-800 bg-white">
-    <!-- Hero Section -->
-    <header class="relative bg-warm-beige pt-20 pb-24 overflow-hidden shadow-xl">
-        <div class="absolute inset-0 bg-deep-blue opacity-5 mix-blend-multiply"></div>
-        <div class="max-w-7xl mx-auto container-padding flex flex-col md:flex-row items-center relative z-10">
-            <div class="md:w-1/2 mb-12 md:mb-0 md:pr-12">
-                <h1 class="font-heading text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight text-deep-blue">
-                    Get <span class="font-extrabold">Clarity in Love</span>, Heal Patterns, Move Forward.
-                </h1>
-                <p class="mt-4 text-xl sm:text-2xl text-gray-700 font-medium">
-                    Personalised guidance Report by Abhijit. Stop guessing. Start healing.
-                </p>
-                <a href="#booking" class="mt-8 inline-flex items-center justify-center px-8 py-4 border-2 border-gold-accent shadow-lg text-lg font-semibold rounded-xl text-white bg-deep-blue hover:bg-opacity-90 hover:shadow-2xl transition duration-300 transform hover:scale-[1.02] active:scale-100">
-                    Book your Clarity Report — <span class="font-extrabold">₹{{ amount_inr }}</span>
-                    <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
-                </a>
-            </div>
-            <div class="md:w-1/2 flex justify-center">
-                <div class="w-64 h-80 sm:w-80 sm:h-[400px] rounded-2xl bg-deep-blue overflow-hidden flex items-center justify-center shadow-deep-glow border-4 border-gold-accent transition duration-500 hover:shadow-[0_25px_60px_rgba(28,28,125,0.9)]">
-                    <img src="static/images/hero/hero.PNG" alt="Abhijit - Relationship Coach"
-                         class="w-full h-full object-cover"
-                         onerror="this.onerror=null; this.src='https://placehold.co/320x400/1C1C7D/C49A6C?text=Upload+Your+Photo';">
-                </div>
-            </div>
-        </div>
-    </header>
 
-    <!-- Booking Form Section -->
-    <section id="booking" class="py-16 sm:py-24 bg-deep-blue/5">
-        <div class="max-w-4xl mx-auto container-padding">
-            <h2 class="font-heading text-4xl sm:text-5xl text-deep-blue text-center font-bold mb-12">
-                Ready to See What's Holding You Back?
-            </h2>
-            <div id="confirmation-message" class="hidden mb-8"></div>
-
-            <form onsubmit="handleSubmit(event)" action="/book-report" method="POST"
-                  class="bg-white p-6 sm:p-10 rounded-2xl shadow-2xl border border-gray-100">
-                <p class="mb-6 text-center text-lg text-gray-600">
-                    Secure your personalized guidance by filling out this quick form.
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
-                        <input type="text" id="name" name="name" required
-                               class="mt-1 block w-full border border-gray-300 rounded-lg p-3 focus:ring-gold-accent focus:border-gold-accent">
-                    </div>
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-                        <input type="email" id="email" name="email" required
-                               class="mt-1 block w-full border border-gray-300 rounded-lg p-3 focus:ring-gold-accent focus:border-gold-accent">
-                    </div>
-                </div>
-
-                <div class="mt-6">
-                    <label for="message" class="block text-sm font-medium text-gray-700">Describe your issue</label>
-                    <textarea id="message" name="message" rows="4" required
-                              class="mt-1 block w-full border border-gray-300 rounded-lg p-3 focus:ring-gold-accent focus:border-gold-accent"></textarea>
-                </div>
-
-                <p class="text-center text-sm mt-6 text-deep-blue font-semibold">
-                    All information is strictly confidential and used only for your personalized report.
-                </p>
-
-                <div class="mt-8">
-                    <button type="submit"
-                            class="w-full inline-flex items-center justify-center px-8 py-4 border-2 border-gold-accent text-lg font-semibold rounded-xl text-white bg-deep-blue hover:bg-opacity-90 hover:shadow-2xl transition duration-300 transform hover:scale-[1.01] active:scale-100">
-                        Unlock My Clarity Report (₹{{ amount_inr }})
-                    </button>
-                </div>
-            </form>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-deep-blue text-white py-12">
-        <div class="max-w-7xl mx-auto container-padding text-center">
-            <div class="flex justify-center space-x-6 mb-6">
-                <a href="https://instagram.com/{{ instagram_handle }}" target="_blank"
-                   class="text-gold-accent hover:text-white transition duration-200">
-                    <i data-lucide="instagram" class="w-6 h-6"></i>
-                </a>
-                <a href="mailto:askabhijit@outlook.com"
-                   class="text-gold-accent hover:text-white transition duration-200">
-                    <i data-lucide="mail" class="w-6 h-6"></i>
-                </a>
-            </div>
-            <p class="text-sm text-gray-400 mb-2">
-                © 2025 Abhijit | Relationship Clarity Coaching.
+<!-- HERO -->
+<header class="relative bg-warm-beige pt-20 pb-24 overflow-hidden shadow-xl">
+    <div class="absolute inset-0 bg-deep-blue opacity-5 mix-blend-multiply"></div>
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center relative z-10">
+        <div class="md:w-1/2 mb-12 md:mb-0 md:pr-12">
+            <h1 class="font-heading text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight text-deep-blue">
+                Get <span class="font-extrabold">Clarity in Love</span>, Heal Patterns, Move Forward.
+            </h1>
+            <p class="mt-4 text-xl text-gray-700 font-medium">
+                Personalised guidance Report by Abhijit. Stop guessing. Start healing.
             </p>
-            <p class="text-xs text-gray-500">
-                Note on Privacy: All sessions and reports are strictly confidential.
-            </p>
+            <a href="#booking"
+               class="mt-8 inline-flex items-center justify-center px-8 py-4 border-2 border-gold-accent shadow-lg text-lg font-semibold rounded-xl text-white bg-deep-blue hover:bg-opacity-90 hover:shadow-2xl transition duration-300">
+                Book your Clarity Report — <span class="font-extrabold">₹{{ amount_inr }}</span>
+                <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
+            </a>
         </div>
-    </footer>
 
-    <script> lucide.createIcons(); </script>
+        <div class="md:w-1/2 flex justify-center">
+            <div class="w-64 h-80 sm:w-80 sm:h-[400px] rounded-2xl bg-deep-blue overflow-hidden flex items-center justify-center shadow-xl border-4 border-gold-accent">
+                <img src="static/images/hero/hero.PNG"
+                     alt="Abhijit - Relationship Coach"
+                     class="w-full h-full object-cover"
+                     onerror="this.onerror=null; this.src='https://placehold.co/320x400/1C1C7D/C49A6C?text=Upload+Your+Photo';">
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ABOUT ME -->
+<section class="py-16 sm:py-24 bg-deep-blue text-white">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center">
+        <div class="md:w-1/3 mb-10 md:mb-0 flex justify-center">
+            <div class="w-64 h-64 rounded-2xl overflow-hidden border-4 border-gold-accent shadow-2xl">
+                <img src="static/images/aboutme/client1.PNG"
+                     alt="Abhijit Portrait"
+                     class="w-full h-full object-cover"
+                     onerror="this.onerror=null; this.src='https://placehold.co/300x300/1C1C7D/C49A6C?text=About+Me+Photo';">
+            </div>
+        </div>
+
+        <div class="md:w-2/3 md:pl-10">
+            <h2 class="font-heading text-4xl sm:text-5xl font-bold text-gold-accent mb-4">Why I Do This</h2>
+            <p class="text-lg leading-relaxed text-gray-200 font-poppins">
+                I’ve seen firsthand how painful it is when love feels one-sided, or when the same heartbreak repeats again and again.
+                Over the years, people started coming to me for clarity and healing. It made me realise my calling —
+                helping others find emotional peace, truth, and direction.
+            </p>
+            <p class="mt-4 text-lg text-gray-300 font-poppins">
+                Every report I make is deeply personal, designed to help you break free from patterns, and finally see your worth.
+            </p>
+            <a href="#booking" class="mt-8 inline-flex items-center justify-center px-8 py-4 border-2 border-gold-accent text-lg font-semibold rounded-xl text-deep-blue bg-white hover:bg-warm-beige transition duration-300">
+                Start Your Session
+                <i data-lucide="chevrons-right" class="w-5 h-5 ml-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- BOOKING FORM -->
+<section id="booking" class="py-16 sm:py-24 bg-deep-blue/5">
+    <div class="max-w-4xl mx-auto px-4">
+        <h2 class="font-heading text-4xl sm:text-5xl text-deep-blue text-center font-bold mb-12">
+            Ready to See What's Holding You Back?
+        </h2>
+
+        <form action="/book-report" method="POST"
+              class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+            <p class="mb-6 text-center text-lg text-gray-600">
+                Fill out this quick form to book your personalised guidance.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                    <input type="text" id="name" name="name" required
+                           class="mt-1 block w-full border border-gray-300 rounded-lg p-3 focus:ring-gold-accent focus:border-gold-accent">
+                </div>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input type="email" id="email" name="email" required
+                           class="mt-1 block w-full border border-gray-300 rounded-lg p-3 focus:ring-gold-accent focus:border-gold-accent">
+                </div>
+            </div>
+
+            <div class="mt-6">
+                <label for="message" class="block text-sm font-medium text-gray-700">Describe Your Issue</label>
+                <textarea id="message" name="message" rows="4" required
+                          class="mt-1 block w-full border border-gray-300 rounded-lg p-3 focus:ring-gold-accent focus:border-gold-accent"></textarea>
+            </div>
+
+            <div class="mt-8">
+                <button type="submit"
+                        class="w-full inline-flex items-center justify-center px-8 py-4 border-2 border-gold-accent text-lg font-semibold rounded-xl text-white bg-deep-blue hover:bg-opacity-90 hover:shadow-2xl transition duration-300">
+                    Unlock My Clarity Report (₹{{ amount_inr }})
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="py-16 sm:py-24 bg-warm-beige">
+    <div class="max-w-4xl mx-auto px-4">
+        <h2 class="font-heading text-4xl sm:text-5xl text-deep-blue text-center font-bold mb-12">
+            Your Questions, Answered.
+        </h2>
+
+        <div class="space-y-4">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <button onclick="toggleFAQ(this)" class="w-full p-5 text-left font-semibold text-deep-blue flex justify-between items-center">
+                    <span>Is this free or paid?</span>
+                    <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                </button>
+                <div class="max-h-0 opacity-0 transition-all duration-500 ease-in-out overflow-hidden">
+                    <p class="px-5 border-t border-gray-200 text-gray-700 py-4">
+                        The complete personalised Clarity Report is a paid offering (₹{{ amount_inr }}) — this ensures I can give you dedicated, high-quality guidance.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <button onclick="toggleFAQ(this)" class="w-full p-5 text-left font-semibold text-deep-blue flex justify-between items-center">
+                    <span>How will I get my report?</span>
+                    <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                </button>
+                <div class="max-h-0 opacity-0 transition-all duration-500 ease-in-out overflow-hidden">
+                    <p class="px-5 border-t border-gray-200 text-gray-700 py-4">
+                        You’ll receive your report securely by email within 24–48 hours after booking. You can also follow up via Instagram <a href="https://instagram.com/{{ instagram_handle }}" target="_blank" class="text-deep-blue font-semibold hover:underline">@{{ instagram_handle }}</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-deep-blue text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+        <div class="flex justify-center space-x-6 mb-6">
+            <a href="https://instagram.com/{{ instagram_handle }}" target="_blank"
+               class="text-gold-accent hover:text-white transition duration-200">
+                <i data-lucide="instagram" class="w-6 h-6"></i>
+            </a>
+            <a href="mailto:askabhijit@outlook.com"
+               class="text-gold-accent hover:text-white transition duration-200">
+                <i data-lucide="mail" class="w-6 h-6"></i>
+            </a>
+        </div>
+        <p class="text-sm text-gray-400 mb-2">© 2025 Abhijit | Relationship Clarity Coaching</p>
+        <p class="text-xs text-gray-500">All sessions and reports are strictly confidential.</p>
+    </div>
+</footer>
+
+<script>lucide.createIcons();</script>
 </body>
 </html>
